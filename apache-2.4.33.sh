@@ -3,7 +3,6 @@
 
 apr="apr-1.5.2"
 apr_util="apr-util-1.5.4"
-pcre="pcre-8.33"
 httpd="httpd-2.4.23"
 
 _chkok() {
@@ -28,13 +27,10 @@ wget http://ftp.neowiz.com/apache/apr/apr-1.5.2.tar.bz2
 _chkok "200 OK" "$?"
 wget http://ftp.neowiz.com/apache/apr/apr-util-1.5.4.tar.bz2
 _chkok "200 OK" "$?"
-wget http://downloads.sourceforge.net/project/pcre/pcre/8.33/pcre-8.33.tar.bz2
-_chkok "200 OK" "$?"
 
 tar xvf apr-1.5.2.tar.bz2
 tar xvf apr-util-1.5.4.tar.bz2
 tar xvf httpd-2.4.23.tar.bz2
-tar xvf pcre-8.33.tar.bz2
 
 #mv apr-1.5.2 /home/src/httpd-2.4.23/srclib/apr
 #mv apr-util-1.5.4 /home/src/httpd-2.4.23/srclib/apr-util
@@ -60,17 +56,6 @@ _install_apr_util(){
         _chkok "apr-util make" "$?"
 	make install
         _chkok "apr-util make install" "$?"
-}
-
-_install_pcre(){
-	cd /home/src/$pcre
-
-        ./configure
-        _chkok "pcre configure" "$?"
-        make
-        _chkok "pcre make" "$?"
-	make install
-        _chkok "pcre make install" "$?"
 }
 
 _install(){
@@ -106,12 +91,10 @@ _apacheconf() {
 	cp -avx /home/apache/bin/apachectl /etc/rc.d/init.d/httpd
 }
 
-yum -y install libjpeg-devel libpng-devel apr-devel apr-util-devel gcc* pcre-devel.x86_64 zlib-devel openssl-devel
-
+yum -y install libjpeg-devel libpng-devel apr-devel apr-util-devel gcc* pcre-devel.x86_64 zlib-devel openssl-devel pcre pcre-devel
 
 _srcdown
 _install_apr
 _install_apr_util
-_install_pcre
 _install
 _apacheconf
